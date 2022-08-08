@@ -39,7 +39,7 @@ Coded by www.creative-tim.com
 import Dashboard from "layouts/dashboard";
 import Tables from "layouts/tables";
 import Billing from "layouts/billing";
-import RTL from "layouts/rtl";
+// import RTL from "layouts/rtl";
 import Notifications from "layouts/notifications";
 import Profile from "layouts/profile";
 import SignIn from "layouts/authentication/sign-in";
@@ -47,6 +47,9 @@ import SignUp from "layouts/authentication/sign-up";
 
 // @mui icons
 import Icon from "@mui/material/Icon";
+import Download from "Screens/download";
+import Estimation from "Screens/estimation";
+import AddEstimation from "Screens/addEstimation";
 
 const routes = [
   {
@@ -56,6 +59,30 @@ const routes = [
     icon: <Icon fontSize="small">dashboard</Icon>,
     route: "/dashboard",
     component: <Dashboard />,
+  },
+  {
+    type: "collapse",
+    name: "Estimation",
+    key: "estimation",
+    icon: <Icon fontSize="small">Estimation</Icon>,
+    route: "/estimation",
+    component: <Estimation />,
+  },
+  {
+    type: "collapse",
+    name: "Download",
+    key: "download",
+    icon: <Icon fontSize="small">download</Icon>,
+    route: "/download",
+    component: <Download />,
+  },
+  {
+    type: "collapse",
+    name: "AddEstimation",
+    key: "addEstimation",
+    icon: <Icon fontSize="small">addEstimation</Icon>,
+    route: "/addEstimation",
+    component: <AddEstimation />,
   },
   {
     type: "collapse",
@@ -73,14 +100,14 @@ const routes = [
     route: "/billing",
     component: <Billing />,
   },
-  {
-    type: "collapse",
-    name: "RTL",
-    key: "rtl",
-    icon: <Icon fontSize="small">format_textdirection_r_to_l</Icon>,
-    route: "/rtl",
-    component: <RTL />,
-  },
+  // {
+  //   type: "collapse",
+  //   name: "RTL",
+  //   key: "rtl",
+  //   icon: <Icon fontSize="small">format_textdirection_r_to_l</Icon>,
+  //   route: "/rtl",
+  //   component: <RTL />,
+  // },
   {
     type: "collapse",
     name: "Notifications",

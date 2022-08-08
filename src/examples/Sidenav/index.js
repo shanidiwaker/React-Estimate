@@ -16,7 +16,7 @@ Coded by www.creative-tim.com
 import { useEffect } from "react";
 
 // react-router-dom components
-import { useLocation, NavLink } from "react-router-dom";
+import { useLocation, NavLink, Link } from "react-router-dom";
 
 // prop-types is a library for typechecking of props.
 import PropTypes from "prop-types";
@@ -24,7 +24,7 @@ import PropTypes from "prop-types";
 // @mui material components
 import List from "@mui/material/List";
 import Divider from "@mui/material/Divider";
-import Link from "@mui/material/Link";
+// import Link from "@mui/material/Link";
 import Icon from "@mui/material/Icon";
 
 // Material Dashboard 2 React components
@@ -52,6 +52,12 @@ function Sidenav({ color, brand, brandName, routes, ...rest }) {
   const { miniSidenav, transparentSidenav, whiteSidenav, darkMode, sidenavColor } = controller;
   const location = useLocation();
   const collapseName = location.pathname.replace("/", "");
+
+  //
+  let email = localStorage.getItem('email');
+  const name = email.split("@")
+  // console.log(name[0]);
+  //
 
   let textColor = "white";
 
@@ -160,7 +166,7 @@ function Sidenav({ color, brand, brandName, routes, ...rest }) {
             <Icon sx={{ fontWeight: "bold" }}>close</Icon>
           </MDTypography>
         </MDBox>
-        <MDBox component={NavLink} to="/" display="flex" alignItems="center">
+        {/* <MDBox component={NavLink} to="/" display="flex" alignItems="center">
           {brand && <MDBox component="img" src={brand} alt="Brand" width="2rem" />}
           <MDBox
             width={!brandName && "100%"}
@@ -170,7 +176,13 @@ function Sidenav({ color, brand, brandName, routes, ...rest }) {
               {brandName}
             </MDTypography>
           </MDBox>
-        </MDBox>
+        </MDBox> */}
+        <MDTypography variant="h4" fontWeight="medium" color='white' mt={1}>
+          Welcome
+        </MDTypography>
+        <MDTypography variant="h5" fontWeight="medium" color='white' mt={1}>
+          {name[0]}
+        </MDTypography>
       </MDBox>
       <Divider
         light={
@@ -179,17 +191,29 @@ function Sidenav({ color, brand, brandName, routes, ...rest }) {
         }
       />
       <List>{renderRoutes}</List>
+      {/* <MDBox mt={3} mb={1} textAlign="center" >
+        <Icon sx={{ fontWeight: "bold", marginRight: 2, }}>dashboard</Icon>
+        <MDTypography
+          component={Link}
+          to="/authentication/sign-up"
+          variant="button"
+          color="white"
+          fontWeight="light"
+        >
+          Sign up
+        </MDTypography>
+      </MDBox> */}
       <MDBox p={2} mt="auto">
         <MDButton
-          component="a"
-          href="https://www.creative-tim.com/product/material-dashboard-pro-react"
-          target="_blank"
+          component={Link}
+          to="/authentication/sign-in"
+          // target="_blank"
           rel="noreferrer"
           variant="gradient"
           color={sidenavColor}
           fullWidth
         >
-          upgrade to pro
+          Logout
         </MDButton>
       </MDBox>
     </SidenavRoot>

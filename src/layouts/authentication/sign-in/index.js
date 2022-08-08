@@ -16,8 +16,7 @@ Coded by www.creative-tim.com
 import { useState } from "react";
 
 // react-router-dom components
-import { Link } from "react-router-dom";
-
+import { Link, useNavigate } from "react-router-dom";
 // @mui material components
 import Card from "@mui/material/Card";
 import Switch from "@mui/material/Switch";
@@ -55,6 +54,7 @@ function Basic() {
 
   const handleSetRememberMe = () => setRememberMe(!rememberMe);
 
+  let navigate = useNavigate();
   //login function
   const login = async () => {
     try {
@@ -63,7 +63,9 @@ function Basic() {
         email,
         password
       );
-      console.log(user);
+      console.log(user.user);
+      localStorage.setItem('email', user.user.email)
+      navigate('/download');
     } catch (error) {
       console.log(error.message);
     }
@@ -124,11 +126,12 @@ function Basic() {
               </MDTypography>
             </MDBox> */}
             <MDBox mt={4} mb={1}>
-              <MDButton variant="gradient" color="info" fullWidth onClick={login}>
+              <MDButton variant="gradient"
+                color="info" fullWidth onClick={login}>
                 sign in
               </MDButton>
             </MDBox>
-            <MDBox mt={3} mb={1} textAlign="center">
+            {/* <MDBox mt={3} mb={1} textAlign="center">
               <MDTypography variant="button" color="text">
                 Don&apos;t have an account?{" "}
                 <MDTypography
@@ -142,7 +145,7 @@ function Basic() {
                   Sign up
                 </MDTypography>
               </MDTypography>
-            </MDBox>
+            </MDBox> */}
           </MDBox>
         </MDBox>
       </Card>
