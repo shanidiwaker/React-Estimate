@@ -55,7 +55,7 @@ function Sidenav({ color, brand, brandName, routes, ...rest }) {
 
   //
   let email = localStorage.getItem('email');
-  const name = email.split("@")
+  const name = email?.split("@")
   // console.log(name[0]);
   //
 
@@ -181,7 +181,7 @@ function Sidenav({ color, brand, brandName, routes, ...rest }) {
           Welcome
         </MDTypography>
         <MDTypography variant="h5" fontWeight="medium" color='white' mt={1}>
-          {name[0]}
+          {/* {name[0]} */}
         </MDTypography>
       </MDBox>
       <Divider
