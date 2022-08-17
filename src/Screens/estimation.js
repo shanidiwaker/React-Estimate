@@ -231,52 +231,47 @@ function Estimation() {
         page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
     return (
         <DashboardLayout>
-            <Box sx={{ minWidth: 120, display: 'flex', flexDirection: 'row', justifyContent: 'center', marginTop: '10px' }}>
-                <MDTypography variant="h5" fontWeight="medium" mt={1}>
-                    Platform
-                </MDTypography>
-                <FormControl sx={{ width: '40%', marginLeft: '60px' }}>
-                    <InputLabel id="demo-simple-select-label">Select Platform</InputLabel>
-                    <Select
-                        value={platform}
-                        labelId="demo-simple-select-label"
-                        label="Platform Select"
-                        onChange={handleChange}
-                        displayEmpty
-                        inputProps={{ 'aria-label': 'With label' }}
-                        sx={{ height: '40px' }}
-                    >
-                        <MenuItem value={10} sx={{ marginBottom: '3px' }}>React Native</MenuItem>
-                        <MenuItem value={20} sx={{ marginBottom: '3px' }}>IOS</MenuItem>
-                        <MenuItem value={30} sx={{ marginBottom: '3px' }}>Android</MenuItem>
-                        <MenuItem value={40} sx={{ marginBottom: '3px' }}>Flutter</MenuItem>
-                        <MenuItem value={50} sx={{ marginBottom: '3px' }}>API</MenuItem>
-                        <MenuItem value={60}>Website</MenuItem>
-                    </Select>
-                </FormControl>
-            </Box>
-            <Box sx={{ minWidth: 120, display: 'flex', flexDirection: 'row', justifyContent: 'center', marginTop: '20px' }}>
-                <MDTypography variant="h5" fontWeight="medium" mt={1}>
-                    Project Name
-                </MDTypography>
-                <FormControl sx={{ width: '40%', marginLeft: '17px' }}>
-                    <InputLabel id="demo-simple-select-label">Select Project Name</InputLabel>
-                    <Select
-                        value={projectName}
-                        labelId="demo-simple-select-label"
-                        label="Select Project Name"
-                        onChange={handleChange1}
-                        displayEmpty
-                        inputProps={{ 'aria-label': 'With label' }}
-                        sx={{ height: '40px' }}
-                    >
-                        <MenuItem value={10} sx={{ marginBottom: '3px' }}>React Native</MenuItem>
-                    </Select>
-                </FormControl>
-            </Box>
-            <Box mt={4} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <Grid container sx={{ display: "flex", justifyContent: "center", margin: "15px 0px" }}>
+                <Grid item lg={6} md={8} sm={12} xs={12}>
+                    <Box component='form' role="form">
+                        <Box my={2}>
+                            <InputLabel id="demo-simple-select-label">Select Platform</InputLabel>
+                            <Select
+                                value={platform}
+                                labelId="demo-simple-select-label"
+                                onChange={handleChange}
+                                displayEmpty
+                                inputProps={{ 'aria-label': 'With label' }}
+                                fullWidth sx={{ height: '40px', marginTop: "10px" }}
+                            >
+                                <MenuItem value={10} sx={{ marginBottom: '3px' }}>React Native</MenuItem>
+                                <MenuItem value={20} sx={{ marginBottom: '3px' }}>IOS</MenuItem>
+                                <MenuItem value={30} sx={{ marginBottom: '3px' }}>Android</MenuItem>
+                                <MenuItem value={40} sx={{ marginBottom: '3px' }}>Flutter</MenuItem>
+                                <MenuItem value={50} sx={{ marginBottom: '3px' }}>API</MenuItem>
+                                <MenuItem value={60}>Website</MenuItem>
+                            </Select>
+                        </Box>
+                        <Box my={2}>
+                            <InputLabel id="demo-simple-select-label">Select Project Name</InputLabel>
+                            <Select
+                                value={projectName}
+                                labelId="demo-simple-select-label"
+                                onChange={handleChange1}
+                                displayEmpty
+                                inputProps={{ 'aria-label': 'With label' }}
+                                fullWidth sx={{ height: '40px', marginTop: "10px" }}
+                            >
+                                <MenuItem value={10} sx={{ marginBottom: '3px' }}>React Native</MenuItem>
+                            </Select>
+                        </Box>
+                    </Box>
+                </Grid>
+            </Grid>
+
+            {/* <Box mt={4} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                 <Box sx={{ flex: 1, justifyContent: 'center' }}>
-                    <MDTypography variant="h6" textAlign='center'>
+                    <MDTypography variant="h5" >
                         Estimation List
                     </MDTypography>
                 </Box>
@@ -288,7 +283,7 @@ function Estimation() {
                         Add New
                     </MDButton>
                 </Box>
-            </Box>
+            </Box> */}
             <MDBox pt={6} pb={3}>
                 <Grid container spacing={6}>
                     <Grid item xs={12}>
@@ -296,16 +291,28 @@ function Estimation() {
                             <MDBox
                                 mx={2}
                                 mt={-3}
-                                py={3}
+                                py={2}
                                 px={2}
                                 variant="gradient"
                                 bgColor="info"
                                 borderRadius="lg"
                                 coloredShadow="info"
                             >
-                                <MDTypography variant="h6" color="white">
-                                    Projects Table
-                                </MDTypography>
+                                <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                                    <Box sx={{ flex: 1, justifyContent: 'center' }}>
+                                        <MDTypography variant="h5" >
+                                            Estimation List
+                                        </MDTypography>
+                                    </Box>
+                                    <Box sx={{ right: 0 }}>
+                                        <MDButton variant="gradient"
+                                            component={Link}
+                                            to="/addEstimation"
+                                            color="info"  >
+                                            Add New
+                                        </MDButton>
+                                    </Box>
+                                </Box>
                             </MDBox>
                             <MDBox pt={3}>
                                 <Paper sx={{ width: "100%", mb: 2, }}>

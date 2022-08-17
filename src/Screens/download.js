@@ -81,7 +81,7 @@ function Download() {
                         </Box>
                         <MDBox mt={4} mb={1} sx={{ textAlign: "center" }}>
                             <MDButton variant="gradient"
-                                color="info" halfWidth >
+                                color="info"  >
                                 Download
                             </MDButton>
                         </MDBox>

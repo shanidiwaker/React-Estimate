@@ -1,40 +1,15 @@
-/**
-=========================================================
-* Material Dashboard 2 React - v2.1.0
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/material-dashboard-react
-* Copyright 2022 Creative Tim (https://www.creative-tim.com)
-
-Coded by www.creative-tim.com
-
- =========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-*/
 import * as React from 'react';
 import { useState, useEffect } from "react";
-// @mui material components
-import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import { Box, Typography, Card, CardContent, Grid, Divider, Button } from '@mui/material';
-
-
-// Material Dashboard 2 React components
 import MDBox from "components/MDBox";
 import MDButton from "components/MDButton";
 import MDInput from "components/MDInput";
-
-// Material Dashboard 2 React example components
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import MDTypography from "components/MDTypography";
-
-// Data
 import { db } from '../firebase-config';
 import { collection, getDocs, addDoc, updateDoc, doc, deleteDoc } from 'firebase/firestore'
-
-// Material Dashboard 2 React components
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
@@ -196,7 +171,123 @@ function AddEstimation() {
             <MDTypography variant="h3" fontWeight="medium" mt={1}>
                 Add New Estimation
             </MDTypography>
-            <Grid container spacing={0} sx={{ display: "flex", justifyContent: "space-around" }}>
+            <Grid container sx={{ display: "flex", justifyContent: "center", margin: "15px 0px" }}>
+                <Grid item lg={6} md={8} sm={12} xs={12}>
+                    <Box component='form' role="form">
+                        <Box my={3}>
+                            <InputLabel id="demo-simple-select-label"> Platform</InputLabel>
+                            <Select
+                                value={currentEvent?.platform}
+                                labelId="demo-simple-select-label"
+                                onChange={handleChange}
+                                displayEmpty
+                                inputProps={{ 'aria-label': 'With label' }}
+                                fullWidth sx={{ height: '40px', marginTop: "8px" }}
+                            >
+                                <MenuItem value='React Native' sx={{ marginBottom: '3px' }}>React Native</MenuItem>
+                                <MenuItem value='IOS' sx={{ marginBottom: '3px' }}>IOS</MenuItem>
+                                <MenuItem value='Android' sx={{ marginBottom: '3px' }}>Android</MenuItem>
+                                <MenuItem value='Flutter' sx={{ marginBottom: '3px' }}>Flutter</MenuItem>
+                                <MenuItem value='API' sx={{ marginBottom: '3px' }}>API</MenuItem>
+                                <MenuItem value='Website'>Website</MenuItem>
+                            </Select>
+                        </Box>
+                        <Box my={3}>
+                            <InputLabel id="demo-simple-select-label"> Project Name</InputLabel>
+                            <MDInput type="text" variant="outlined" fullWidth sx={{ height: '40px', marginTop: "8px" }}
+                                value={currentEvent?.projectName} onChange={(e) => { setCurrentEvent({ ...currentEvent, projectName: e.target.value }) }} />
+                        </Box>
+                        <Box my={3}>
+                            <InputLabel id="demo-simple-select-label">Select Functionality</InputLabel>
+                            <Grid container>
+                                <Grid item lg={10} md={10} sm={10} xs={9}>
+                                    <Select
+                                        value={currentEvent?.type}
+                                        labelId="demo-simple-select-label"
+                                        onChange={handleChange2}
+                                        displayEmpty
+                                        inputProps={{ 'aria-label': 'With label' }}
+                                        fullWidth sx={{ height: '40px', marginTop: "8px" }}
+                                    >
+                                        <MenuItem value='Login' sx={{ marginBottom: '3px' }}>Login</MenuItem>
+                                        <MenuItem value='Signup' sx={{ marginBottom: '3px' }}>Signup</MenuItem>
+                                        <MenuItem value='Notifications' sx={{ marginBottom: '3px' }}>Notifications</MenuItem>
+                                        <MenuItem value='Logout' sx={{ marginBottom: '3px' }}>Logout</MenuItem>
+                                    </Select>
+                                </Grid>
+                                <Grid item lg={2} md={2} sm={2} xs={3} sx={{ padding: "8px 0px 0px 10px", textAlign: "right" }}>
+                                    <MDButton variant="gradient"
+                                        onClick={addUser}
+                                        color="info"  >
+                                        Add
+                                    </MDButton>
+                                </Grid>
+
+
+                            </Grid>
+                        </Box>
+                        {currentEvent?.type &&
+                            <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: "15px", flexDirection: { sm: "column", md: "column" } }}>
+                                <MDTypography variant="h5" fontWeight="medium" mr={2}>
+                                    Sub Functionality
+                                </MDTypography>
+                                <MDBox py={3} px={2}
+                                    variant="gradient" bgColor="white" borderRadius="lg" coloredShadow="info"
+                                    sx={{ width: { lg: "550px", md: "550px", sm: "100%" } }}
+                                >
+                                    <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+                                        <FormControl sx={{ width: { lg: "550px", md: "550px", sm: "100%", xs: "100%" }, height: '40px' }}>
+                                            <Select
+                                                value={currentEvent?.type}
+                                                onChange={handleChange2}
+                                                variant="filled"
+                                                sx={{ width: { lg: "150px", md: "550px", sm: "100%", } }}
+                                            >
+                                                <MenuItem value='Login' sx={{ marginBottom: '3px' }}>Login</MenuItem>
+                                                <MenuItem value='Signup' sx={{ marginBottom: '3px' }}>Signup</MenuItem>
+                                                <MenuItem value='Notifications' sx={{ marginBottom: '3px' }}>Notifications</MenuItem>
+                                                <MenuItem value='Logout' sx={{ marginBottom: '3px' }}>Logout</MenuItem>
+                                            </Select>
+                                        </FormControl>
+
+                                    </Box>
+                                    <Box sx={{ display: 'flex', justifyContent: "space-between", flexWrap: "wrap" }}>
+                                        {toppings.map(({ name, price }, index) => {
+                                            return (
+                                                <FormControlLabel sx={{ margin: "0px 5px", display: "grid" }} htmlFor={`custom-checkbox-${index}`} control={<Checkbox
+                                                    type="checkbox" id={`custom-checkbox-${index}`}
+                                                    name={name} value={name}
+                                                    checked={checkedState[index]}
+                                                    onChange={(name) => handleOnChange(index, name)}
+                                                />} label={name} />
+                                            )
+                                        })}
+                                    </Box>
+                                    <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: "20px", flexDirection: { sm: "column", md: "row" } }}>
+                                        <MDTypography variant="h6" fontWeight="medium" mr={2} sx={{ float: "left" }}>
+                                            Hours
+                                        </MDTypography>
+                                        <MDInput type="text" label="Enter Total Hours" variant="outlined" sx={{ width: { lg: "550px", md: "550px", sm: "100%" } }}
+                                            value={total} onChange={(e) => { setTotal(e.target.value) }} />
+                                    </Box>
+                                </MDBox>
+                                {state.users}
+                            </Box>
+                        }
+                        <Box my={3}>
+                            <InputLabel id="demo-simple-select-label">   Add Notes</InputLabel>
+                            <MDInput type="text" variant="outlined" fullWidth sx={{ height: '40px', marginTop: "8px" }}
+                                value={currentEvent?.note} onChange={(e) => { setCurrentEvent({ ...currentEvent, note: e.target.value }) }} />
+                        </Box>
+                        <MDBox mt={4} mb={1} sx={{ textAlign: "center" }}>
+                            <MDButton variant="gradient" onClick={handleSubmit} color="info"  >
+                                Save
+                            </MDButton>
+                        </MDBox>
+                    </Box>
+                </Grid>
+            </Grid>
+            {/* <Grid container spacing={0} sx={{ display: "flex", justifyContent: "space-around" }}>
                 <Grid item
                     lg={8}
                     sm={12}
@@ -285,9 +376,7 @@ function AddEstimation() {
                                                     <MenuItem value='Logout' sx={{ marginBottom: '3px' }}>Logout</MenuItem>
                                                 </Select>
                                             </FormControl>
-                                            {/* <MDTypography variant="h6" color="black">
-                                            Hours: {getFormattedHours(total)}
-                                        </MDTypography> */}
+                                        
                                         </Box>
                                         <Box sx={{ display: 'flex', justifyContent: "space-between", flexWrap: "wrap" }}>
                                             {toppings.map(({ name, price }, index) => {
@@ -327,7 +416,7 @@ function AddEstimation() {
                         </Grid>
                     </Box>
                 </Grid>
-            </Grid>
+            </Grid> */}
 
             {/* <DashboardNavbar /> */}
             {/* <Box sx={{ margin: "auto", Width: "800px" }}>
