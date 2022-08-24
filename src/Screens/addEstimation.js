@@ -132,8 +132,9 @@ function AddEstimation() {
             projectName: currentEvent?.projectName,
             type: currentEvent?.type,
             checkedState: status,
-            total: total,
-            note: currentEvent?.note
+            total: total || "",
+            note: currentEvent?.note,
+            fields: currentEvent?.fields
         })
     };
 

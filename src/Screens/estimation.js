@@ -63,7 +63,7 @@ function Estimation() {
     const getData = async () => {
         const item = await getDocs(usersCollectionRef);
         setRows(item.docs.map((doc) => ({ ...doc.data(), id: doc.id })))
-        console.log(item);
+        console.log(item.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
     };
 
     const handleChange = (event) => {
@@ -363,12 +363,12 @@ function Estimation() {
                                                                     </TableCell>
                                                                     <TableCell>
                                                                         <Typography color="textSecondary" variant="h6" fontWeight="400">
-                                                                            {row.type}
+                                                                            {row.fields?.map(u => <Typography color="textSecondary" variant="h6" fontWeight="400">{u.title} </Typography>)}
                                                                         </Typography>
                                                                     </TableCell>
                                                                     <TableCell>
                                                                         <Typography color="textSecondary" variant="h6" fontWeight="400">
-                                                                            {func}
+                                                                            {row.fields?.map(u => { return <Typography color="textSecondary" variant="h6" fontWeight="400">{Object.keys(u.value).join(', ')} </Typography> })}
                                                                         </Typography>
                                                                     </TableCell>
                                                                     <TableCell>
