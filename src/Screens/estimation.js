@@ -335,7 +335,7 @@ function Estimation() {
                                                     {stableSort(rows, getComparator(order, orderBy))
                                                         .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                                                         ?.map((row, index) => {
-                                                            var func = row.checkedState.map((p) => {
+                                                            var func = row.checkedState?.map((p) => {
                                                                 if (p.status == true)
                                                                     return <p>{p.name}<br /></p>
                                                             })

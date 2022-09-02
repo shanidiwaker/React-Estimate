@@ -18,6 +18,7 @@ import Select from '@mui/material/Select';
 
 function AddEstimation() {
 
+    const [test, setTest] = useState([]);
     const [state, setState] = useState({ users: [] });
     const [status, setStatus] = React.useState([]);
     const [rows, setRows] = useState(null);
@@ -31,14 +32,18 @@ function AddEstimation() {
         status: [],
         note: ''
     })
-    const addUser = () => {
-        setState({
-            // users: [...state.users, <User />]
-        })
-    }
+    const [tempEvent, setTempEvent] = useState({
+        platform: '',
+        projectName: '',
+        type: '',
+        status: [],
+        note: ''
+    })
+
 
     useEffect(() => {
         getData();
+
     }, []);
 
     const getData = async () => {
@@ -65,49 +70,49 @@ function AddEstimation() {
         },
     ];
 
-    const User = () => {
-        return (
-            <MDBox py={3} px={2}
-                variant="gradient" bgColor="white" borderRadius="lg" coloredShadow="info"
-                sx={{ width: { lg: "550px", md: "550px", sm: "100%" }, marginTop: "10px" }}
-            >
-                <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                    <FormControl sx={{ width: { lg: "550px", md: "550px", sm: "100%", xs: "100%" }, height: '40px' }}>
-                        <Select
-                            value={currentEvent?.type}
-                            onChange={handleChange2}
-                            variant="filled"
-                            sx={{ width: { lg: "150px", md: "550px", sm: "100%", } }}
-                        >
-                            <MenuItem value='Login' sx={{ marginBottom: '3px' }}>Login</MenuItem>
-                            <MenuItem value='Signup' sx={{ marginBottom: '3px' }}>Signup</MenuItem>
-                            <MenuItem value='Notifications' sx={{ marginBottom: '3px' }}>Notifications</MenuItem>
-                            <MenuItem value='Logout' sx={{ marginBottom: '3px' }}>Logout</MenuItem>
-                        </Select>
-                    </FormControl>
-                </Box>
-                <Box sx={{ display: 'flex', justifyContent: "space-between", flexWrap: "wrap" }}>
-                    {toppings?.map(({ name, price }, index) => {
-                        return (
-                            <FormControlLabel sx={{ margin: "0px 5px", display: "grid" }} htmlFor={`custom-checkbox-${index}`} control={<Checkbox
-                                type="checkbox" id={`custom-checkbox-${index}`}
-                                name={name} value={name}
-                                checked={checkedState[index]}
-                                onChange={(name) => handleOnChange(index, name)}
-                            />} label={name} />
-                        )
-                    })}
-                </Box>
-                <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: "20px", flexDirection: { sm: "column", md: "row" } }}>
-                    <MDTypography variant="h6" fontWeight="medium" mr={2} sx={{ float: "left" }}>
-                        Hours
-                    </MDTypography>
-                    <MDInput type="text" label="Enter Total Hours" variant="outlined" sx={{ width: { lg: "550px", md: "550px", sm: "100%" } }}
-                        value={total} onChange={(e) => { setTotal(e.target.value) }} />
-                </Box>
-            </MDBox>
-        )
-    }
+    // const User = () => {
+    //     return (
+    //         <MDBox py={3} px={2}
+    //             variant="gradient" bgColor="white" borderRadius="lg" coloredShadow="info"
+    //             sx={{ width: { lg: "550px", md: "550px", sm: "100%" }, marginTop: "10px" }}
+    //         >
+    //             <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+    //                 <FormControl sx={{ width: { lg: "550px", md: "550px", sm: "100%", xs: "100%" }, height: '40px' }}>
+    //                     <Select
+    //                         value={currentEvent?.type}
+    //                         onChange={handleChange2}
+    //                         variant="filled"
+    //                         sx={{ width: { lg: "150px", md: "550px", sm: "100%", } }}
+    //                     >
+    //                         <MenuItem value='Login' sx={{ marginBottom: '3px' }}>Login</MenuItem>
+    //                         <MenuItem value='Signup' sx={{ marginBottom: '3px' }}>Signup</MenuItem>
+    //                         <MenuItem value='Notifications' sx={{ marginBottom: '3px' }}>Notifications</MenuItem>
+    //                         <MenuItem value='Logout' sx={{ marginBottom: '3px' }}>Logout</MenuItem>
+    //                     </Select>
+    //                 </FormControl>
+    //             </Box>
+    //             <Box sx={{ display: 'flex', justifyContent: "space-between", flexWrap: "wrap" }}>
+    //                 {toppings?.map(({ name, price }, index) => {
+    //                     return (
+    //                         <FormControlLabel sx={{ margin: "0px 5px", display: "grid" }} htmlFor={`custom-checkbox-${index}`} control={<Checkbox
+    //                             type="checkbox" id={`custom-checkbox-${index}`}
+    //                             name={name} value={name}
+    //                             checked={checkedState[index]}
+    //                             onChange={(name) => handleOnChange(index, name)}
+    //                         />} label={name} />
+    //                     )
+    //                 })}
+    //             </Box>
+    //             <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: "20px", flexDirection: { sm: "column", md: "row" } }}>
+    //                 <MDTypography variant="h6" fontWeight="medium" mr={2} sx={{ float: "left" }}>
+    //                     Hours
+    //                 </MDTypography>
+    //                 <MDInput type="text" label="Enter Total Hours" variant="outlined" sx={{ width: { lg: "550px", md: "550px", sm: "100%" } }}
+    //                     value={total} onChange={(e) => { setTotal(e.target.value) }} />
+    //             </Box>
+    //         </MDBox>
+    //     )
+    // }
 
     const handleChange1 = (event) => {
         setChecked(event.target.checked);
@@ -122,8 +127,13 @@ function AddEstimation() {
         if (currentEvent?.fields?.length) currentEvent?.fields.push(fields);
         else currentEvent.fields = [fields];
         setCurrentEvent(JSON.parse(JSON.stringify({ ...currentEvent, status: event.target.value })));
-        console.log('=========.>', currentEvent);
+        console.log('=========>', currentEvent);
+
     };
+    const addUser = () => {
+        const deepClone = JSON.parse(JSON.stringify(currentEvent));
+        setTempEvent(deepClone);
+    }
 
     const handleSubmit = async () => {
         console.log(currentEvent, checkedState, total);
@@ -138,23 +148,41 @@ function AddEstimation() {
         })
     };
 
+
+
+    const [total, setTotal] = useState();
+
+
     const [checkedState, setCheckedState] = useState(
         new Array(toppings.length).fill(false)
     );
 
-    const [total, setTotal] = useState();
+    const handleOnChange = (position, eve) => {
 
-    const handleOnChange = (position, name) => {
+
+        var list = [...test];
+        if (eve.target.checked) {
+            list = [...test, eve.target.value];
+        }
+        else {
+            list.splice(test.indexOf(eve.target.value), 1);
+        }
+
+        setTest(list)
+        console.log("my data", test);
+
 
         const updatedCheckedState = checkedState?.map((item, index) =>
             index === position ? !item : item
         );
+
         setCheckedState(updatedCheckedState);
         updatedCheckedState?.map((v, i) => {
             toppings[i].status = v;
         })
         console.log("position, name", toppings);
         setStatus(toppings);
+
     };
 
     return (
@@ -218,10 +246,10 @@ function AddEstimation() {
                                 </Grid>
                             </Grid>
                         </Box>
-                        {currentEvent?.fields?.map((dat) => (
-                            <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: "15px", flexDirection: { sm: "column", md: "column" } }}>
+                        {tempEvent?.fields?.map((dat, i) => (
+                            <Box key={i} sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: "15px", flexDirection: { sm: "column", md: "column" } }}>
                                 {/* <MDTypography variant="h5" fontWeight="medium" mr={2}>
-                                    Sub Functionality
+                                    Sub Functionality 
                                 </MDTypography> */}
                                 <MDBox py={3} px={2}
                                     variant="gradient" bgColor="white" borderRadius="lg" coloredShadow="info"
@@ -235,13 +263,18 @@ function AddEstimation() {
                                     <Box sx={{ display: 'flex', justifyContent: "space-evenly", flexWrap: "wrap" }}>
                                         {Object.keys(dat?.value)?.map((field, index) => {
                                             console.log("field", field);
+                                            console.log("checkedState[dat?.id]", checkedState);
                                             return (
-                                                <FormControlLabel sx={{ margin: "0px 5px", display: "grid" }} htmlFor={`custom-checkbox-${index}`} control={<Checkbox
-                                                    type="checkbox" id={`custom-checkbox-${index}`}
-                                                    name={field} value={field}
-                                                    checked={checkedState[index]}
-                                                    onChange={(field) => handleOnChange(index, field)}
-                                                />} label={field} />
+                                                <FormControlLabel sx={{ margin: "0px 5px", display: "grid" }} htmlFor={`custom-checkbox-${dat?.id}`}
+                                                    control={<Checkbox
+                                                        type="checkbox"
+                                                        id={`custom-checkbox-${dat?.id}`}
+                                                        name={field}
+                                                        value={field}
+                                                        checked={checkedState[dat?.id]}
+                                                        onChange={(field) => handleOnChange(index, field, dat?.id)}
+                                                    />}
+                                                    label={field} />
                                             )
                                         })}
                                     </Box>
