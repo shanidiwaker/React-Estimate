@@ -19,6 +19,9 @@ import Select from '@mui/material/Select';
 function AddEstimation() {
 
     const [test, setTest] = useState([]);
+    const [test1, setTest1] = useState([]);
+    const [test2, setTest2] = useState([]);
+    const [test3, setTest3] = useState([]);
     const [state, setState] = useState({ users: [] });
     const [status, setStatus] = React.useState([]);
     const [rows, setRows] = useState(null);
@@ -52,23 +55,23 @@ function AddEstimation() {
         setRows(data)
     };
 
-    const toppings = [
-        {
-            name: "Name",
-        },
-        {
-            name: "Email",
-        },
-        {
-            name: "Password",
-        },
-        {
-            name: "Mobile no.",
-        },
-        {
-            name: "Address",
-        },
-    ];
+    // const toppings = [
+    //     {
+    //         name: "Name",
+    //     },
+    //     {
+    //         name: "Email",
+    //     },
+    //     {
+    //         name: "Password",
+    //     },
+    //     {
+    //         name: "Mobile no.",
+    //     },
+    //     {
+    //         name: "Address",
+    //     },
+    // ];
 
     // const User = () => {
     //     return (
@@ -114,13 +117,13 @@ function AddEstimation() {
     //     )
     // }
 
-    const handleChange1 = (event) => {
-        setChecked(event.target.checked);
-    };
+    // const handleChange1 = (event) => {
+    //     setChecked(event.target.checked);
+    // };
 
-    const handleChange = (event) => {
-        setCurrentEvent({ ...currentEvent, platform: event.target.value });
-    };
+    // const handleChange = (event) => {
+    //     setCurrentEvent({ ...currentEvent, platform: event.target.value });
+    // };
 
     const handleChange2 = (event) => {
         let fields = JSON.parse(event.target.value);
@@ -141,7 +144,7 @@ function AddEstimation() {
             platform: currentEvent?.platform,
             projectName: currentEvent?.projectName,
             type: currentEvent?.type,
-            checkedState: status,
+            //  checkedState: status,
             total: total || "",
             note: currentEvent?.note,
             fields: currentEvent?.fields
@@ -154,35 +157,101 @@ function AddEstimation() {
 
 
     const [checkedState, setCheckedState] = useState(
-        new Array(toppings.length).fill(false)
+        // new Array(toppings.length).fill(false)
     );
 
-    const handleOnChange = (position, eve) => {
+    const handleOnChange = (position, eve, id, title) => {
+        var Data = [];
+        var arr4 = [];
+        var arr3 = [];
+        var arr2 = [];
+        var arr1 = [];
 
+        setCurrentEvent({ ...currentEvent, fields: arr1 })
+        if (position == 0) {
+            let list = [...test];
+            if (eve.target.checked) {
+                list = [...test, eve.target.value];
+            }
+            else {
+                list.splice(test.indexOf(eve.target.value), 1);
+            }
+            setTest(list)
+            var obj1 = list.reduce((index, value) => {
+                index[value] = true
+                return index;
+            }, {})
+            arr1 = [{
+                "id": id,
+                "title": title,
+                "value": obj1
+            }]
+            console.log("arrarrarr111", arr1);
+            Data = [...arr1];
 
-        var list = [...test];
-        if (eve.target.checked) {
-            list = [...test, eve.target.value];
         }
-        else {
-            list.splice(test.indexOf(eve.target.value), 1);
+        if (position == 1) {
+            var list = [...test1];
+            if (eve.target.checked) {
+                list = [...test1, eve.target.value];
+            }
+            else {
+                list.splice(test1.indexOf(eve.target.value), 1);
+            }
+            setTest1(list)
+            var obj2 = list.reduce((index, value) => {
+                index[value] = true
+                return index;
+            }, {})
+            arr2 = [{
+                "id": id,
+                "title": title,
+                "value": obj2
+            }]
+            console.log("arrarrarr222", arr2);
+            Data = [...arr2];
         }
-
-        setTest(list)
-        console.log("my data", test);
-
-
-        const updatedCheckedState = checkedState?.map((item, index) =>
-            index === position ? !item : item
-        );
-
-        setCheckedState(updatedCheckedState);
-        updatedCheckedState?.map((v, i) => {
-            toppings[i].status = v;
-        })
-        console.log("position, name", toppings);
-        setStatus(toppings);
-
+        if (position == 2) {
+            var list = [...test2];
+            if (eve.target.checked) {
+                list = [...test2, eve.target.value];
+            }
+            else {
+                list.splice(test2.indexOf(eve.target.value), 1);
+            }
+            setTest2(list)
+            var obj2 = list.reduce((index, value) => {
+                index[value] = true
+                return index;
+            }, {})
+            arr3 = [{
+                "id": id,
+                "title": title,
+                "value": obj2
+            }]
+            console.log("arrarrarr333", arr3);
+        }
+        if (position == 3) {
+            var list = [...test3];
+            if (eve.target.checked) {
+                list = [...test3, eve.target.value];
+            }
+            else {
+                list.splice(test3.indexOf(eve.target.value), 1);
+            }
+            setTest3(list)
+            var obj2 = list.reduce((index, value) => {
+                index[value] = true
+                return index;
+            }, {})
+            arr4 = [{
+                "id": id,
+                "title": title,
+                "value": obj2
+            }]
+            console.log("arrarrarr444", arr4);
+        }
+        console.log("DATADATA", Data);
     };
 
     return (
@@ -198,7 +267,7 @@ function AddEstimation() {
                             <Select
                                 value={currentEvent?.platform}
                                 labelId="demo-simple-select-label"
-                                onChange={handleChange}
+                                onChange={(e) => { setCurrentEvent({ ...currentEvent, platform: e.target.value }) }}
                                 displayEmpty
                                 inputProps={{ 'aria-label': 'With label' }}
                                 fullWidth sx={{ height: '40px', marginTop: "8px" }}
@@ -262,17 +331,17 @@ function AddEstimation() {
                                     </Box>
                                     <Box sx={{ display: 'flex', justifyContent: "space-evenly", flexWrap: "wrap" }}>
                                         {Object.keys(dat?.value)?.map((field, index) => {
-                                            console.log("field", field);
-                                            console.log("checkedState[dat?.id]", checkedState);
+                                            // console.log("field", field);
+                                            // console.log("checkedState[dat?.id]", checkedState);
                                             return (
-                                                <FormControlLabel sx={{ margin: "0px 5px", display: "grid" }} htmlFor={`custom-checkbox-${dat?.id}`}
+                                                <FormControlLabel sx={{ margin: "0px 5px", display: "grid" }} htmlFor={`custom-checkbox-${i}`}
                                                     control={<Checkbox
                                                         type="checkbox"
-                                                        id={`custom-checkbox-${dat?.id}`}
+                                                        id={`custom-checkbox-${i}`}
                                                         name={field}
                                                         value={field}
-                                                        checked={checkedState[dat?.id]}
-                                                        onChange={(field) => handleOnChange(index, field, dat?.id)}
+                                                        //   checked={checkedState[dat?.id]}
+                                                        onChange={(field) => handleOnChange(i, field, dat?.id, dat?.title)}
                                                     />}
                                                     label={field} />
                                             )
