@@ -25,9 +25,11 @@ function AddEstimation() {
     const [state, setState] = useState({ users: [] });
     const [status, setStatus] = React.useState([]);
     const [rows, setRows] = useState(null);
+    const [platform, setPlatform] = useState(null);
     const [checked, setChecked] = React.useState(false);
     const usersCollectionRef = collection(db, 'estimation');
     const funcsCollectionRef = collection(db, 'Sub functionality');
+    const platformRef = collection(db, 'Platform');
     const [currentEvent, setCurrentEvent] = useState({
         platform: '',
         projectName: '',
@@ -51,8 +53,13 @@ function AddEstimation() {
 
     const getData = async () => {
         const item = await getDocs(funcsCollectionRef);
+        const platformData = await getDocs(platformRef);
+        let pData = platformData.docs?.map((doc) => ({ ...doc.data(), id: doc.id }));
         let data = item.docs?.map((doc) => ({ ...doc.data(), id: doc.id }));
         setRows(data)
+        console.log("platformData", pData);
+        setPlatform(pData)
+        platform.map(function (i, v) { console.log(i.title); })
     };
 
     // const toppings = [
@@ -157,26 +164,13 @@ function AddEstimation() {
 
     const [total, setTotal] = useState();
     const [Data, setData] = useState([]);
-    const [hoursNeeded, setHoursNeeded] = useState({
-        Profile: null,
-        Login: null,
-        Logout: null,
-        Signup: null
-    });
+    const [hoursNeeded, setHoursNeeded] = useState({});
     const handleChangeHours = async (value, title) => {
         if (title === "Profile") setHoursNeeded({ ...hoursNeeded, Profile: value })
         if (title === "Login") setHoursNeeded({ ...hoursNeeded, Login: value })
         if (title === "Logout") setHoursNeeded({ ...hoursNeeded, Logout: value })
         if (title === "Signup") setHoursNeeded({ ...hoursNeeded, Signup: value })
-
-        console.log("text->", hoursNeeded);
-
-
     }
-
-    const [checkedState, setCheckedState] = useState(
-        // new Array(toppings.length).fill(false)
-    );
 
     const handleOnChange = (position, eve, id, title) => {
 
@@ -355,12 +349,9 @@ function AddEstimation() {
                                 inputProps={{ 'aria-label': 'With label' }}
                                 fullWidth sx={{ height: '40px', marginTop: "8px" }}
                             >
-                                <MenuItem value='React Native' sx={{ marginBottom: '3px' }}>React Native</MenuItem>
-                                <MenuItem value='IOS' sx={{ marginBottom: '3px' }}>IOS</MenuItem>
-                                <MenuItem value='Android' sx={{ marginBottom: '3px' }}>Android</MenuItem>
-                                <MenuItem value='Flutter' sx={{ marginBottom: '3px' }}>Flutter</MenuItem>
-                                <MenuItem value='API' sx={{ marginBottom: '3px' }}>API</MenuItem>
-                                <MenuItem value='Website'>Website</MenuItem>
+                                {platform?.map((v) => (
+                                    <MenuItem value={v.title} sx={{ marginBottom: '3px' }}>{v?.title}</MenuItem>
+                                ))}
                             </Select>
                         </Box>
                         <Box my={3}>
@@ -383,10 +374,6 @@ function AddEstimation() {
                                         {rows?.map((row) => (
                                             <MenuItem value={JSON.stringify(row)} sx={{ marginBottom: '3px' }}>{row?.title}</MenuItem>
                                         ))}
-                                        {/* <MenuItem value='Login' sx={{ marginBottom: '3px' }}>Login</MenuItem>
-                                        <MenuItem value='Signup' sx={{ marginBottom: '3px' }}>Signup</MenuItem>
-                                        <MenuItem value='Notifications' sx={{ marginBottom: '3px' }}>Notifications</MenuItem>
-                                        <MenuItem value='Logout' sx={{ marginBottom: '3px' }}>Logout</MenuItem> */}
                                     </Select>
                                 </Grid>
                                 <Grid item lg={2} md={2} sm={2} xs={3} sx={{ padding: "8px 0px 0px 10px", textAlign: "right" }}>
@@ -414,8 +401,6 @@ function AddEstimation() {
                                     </Box>
                                     <Box sx={{ display: 'flex', justifyContent: "space-evenly", flexWrap: "wrap" }}>
                                         {Object.keys(dat?.value)?.map((field, index) => {
-                                            // console.log("field", field);
-                                            // console.log("checkedState[dat?.id]", checkedState);
                                             return (
                                                 <FormControlLabel sx={{ margin: "0px 5px", display: "grid" }} htmlFor={`custom-checkbox-${i}`}
                                                     control={<Checkbox
@@ -423,7 +408,6 @@ function AddEstimation() {
                                                         id={`custom-checkbox-${i}`}
                                                         name={field}
                                                         value={field}
-                                                        //   checked={checkedState[dat?.id]}
                                                         onChange={(field) => handleOnChange(i, field, dat?.id, dat?.title)}
                                                     />}
                                                     label={field} />

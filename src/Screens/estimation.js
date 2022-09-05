@@ -58,6 +58,7 @@ function Estimation() {
 
     useEffect(() => {
         getData();
+
     }, [setRows]);
 
     const getData = async () => {
@@ -364,6 +365,7 @@ function Estimation() {
                                                                     <TableCell>
                                                                         <Typography color="textSecondary" variant="h6" fontWeight="400">
                                                                             {row.fields?.map(u => <Typography color="textSecondary" variant="h6" fontWeight="400">{u.title} </Typography>)}
+
                                                                         </Typography>
                                                                     </TableCell>
                                                                     <TableCell>
@@ -373,7 +375,7 @@ function Estimation() {
                                                                     </TableCell>
                                                                     <TableCell>
                                                                         <Typography color="textSecondary" variant="h6" fontWeight="400">
-                                                                            {row.total}
+                                                                            {row.fields?.map(u => <Typography color="textSecondary" variant="h6" fontWeight="400">{row?.hours[u.title]} </Typography>)}
                                                                         </Typography>
                                                                     </TableCell>
                                                                 </TableRow>
