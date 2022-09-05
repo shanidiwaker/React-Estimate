@@ -31,14 +31,14 @@ function AddEstimation() {
     const [currentEvent, setCurrentEvent] = useState({
         platform: '',
         projectName: '',
-        type: '',
+        hours: '',
         status: [],
         note: ''
     })
     const [tempEvent, setTempEvent] = useState({
         platform: '',
         projectName: '',
-        type: '',
+        hours: '',
         status: [],
         note: ''
     })
@@ -139,35 +139,48 @@ function AddEstimation() {
     }
 
     const handleSubmit = async () => {
-        console.log(currentEvent, checkedState, total);
+        console.log("hoursNeeded", currentEvent);
         await addDoc(usersCollectionRef, {
             platform: currentEvent?.platform,
             projectName: currentEvent?.projectName,
-            type: currentEvent?.type,
+            hours: hoursNeeded,
             //  checkedState: status,
-            total: total || "",
+            total: "",
             note: currentEvent?.note,
             fields: currentEvent?.fields
         })
+
+
     };
 
 
 
     const [total, setTotal] = useState();
+    const [Data, setData] = useState([]);
+    const [hoursNeeded, setHoursNeeded] = useState({
+        Profile: null,
+        Login: null,
+        Logout: null,
+        Signup: null
+    });
+    const handleChangeHours = async (value, title) => {
+        if (title === "Profile") setHoursNeeded({ ...hoursNeeded, Profile: value })
+        if (title === "Login") setHoursNeeded({ ...hoursNeeded, Login: value })
+        if (title === "Logout") setHoursNeeded({ ...hoursNeeded, Logout: value })
+        if (title === "Signup") setHoursNeeded({ ...hoursNeeded, Signup: value })
 
+        console.log("text->", hoursNeeded);
+
+
+    }
 
     const [checkedState, setCheckedState] = useState(
         // new Array(toppings.length).fill(false)
     );
 
     const handleOnChange = (position, eve, id, title) => {
-        var Data = [];
-        var arr4 = [];
-        var arr3 = [];
-        var arr2 = [];
-        var arr1 = [];
 
-        setCurrentEvent({ ...currentEvent, fields: arr1 })
+
         if (position == 0) {
             let list = [...test];
             if (eve.target.checked) {
@@ -181,16 +194,33 @@ function AddEstimation() {
                 index[value] = true
                 return index;
             }, {})
-            arr1 = [{
-                "id": id,
-                "title": title,
-                "value": obj1
-            }]
-            console.log("arrarrarr111", arr1);
-            Data = [...arr1];
 
+            if (Data.length === 0) {
+                Data.push({
+                    "id": id,
+                    "title": title,
+                    "value": obj1,
+                })
+            } else {
+                Data.map((a, i) => {
+                    if (a.title === title) {
+                        Data[i].value = obj1
+                    }
+                    else {
+                        var t = Data.find(i => i.title === title)
+                        if (!t?.title) {
+                            Data.push({
+                                "id": id,
+                                "title": title,
+                                "value": obj1
+                            })
+                        }
+                    }
+                })
+            }
         }
         if (position == 1) {
+
             var list = [...test1];
             if (eve.target.checked) {
                 list = [...test1, eve.target.value];
@@ -203,13 +233,30 @@ function AddEstimation() {
                 index[value] = true
                 return index;
             }, {})
-            arr2 = [{
-                "id": id,
-                "title": title,
-                "value": obj2
-            }]
-            console.log("arrarrarr222", arr2);
-            Data = [...arr2];
+            if (Data.length === 0) {
+                Data.push({
+                    "id": id,
+                    "title": title,
+                    "value": obj2
+                })
+            }
+            else {
+                Data.map((a, i) => {
+                    if (a.title === title) {
+                        Data[i].value = obj2
+                    }
+                    else {
+                        var t = Data.find(i => i.title === title)
+                        if (!t?.title) {
+                            Data.push({
+                                "id": id,
+                                "title": title,
+                                "value": obj2
+                            })
+                        }
+                    }
+                })
+            }
         }
         if (position == 2) {
             var list = [...test2];
@@ -220,16 +267,33 @@ function AddEstimation() {
                 list.splice(test2.indexOf(eve.target.value), 1);
             }
             setTest2(list)
-            var obj2 = list.reduce((index, value) => {
+            var obj3 = list.reduce((index, value) => {
                 index[value] = true
                 return index;
             }, {})
-            arr3 = [{
-                "id": id,
-                "title": title,
-                "value": obj2
-            }]
-            console.log("arrarrarr333", arr3);
+            if (Data.length === 0) {
+                Data.push({
+                    "id": id,
+                    "title": title,
+                    "value": obj3
+                })
+            } else {
+                Data.map((a, i) => {
+                    if (a.title === title) {
+                        Data[i].value = obj3
+                    }
+                    else {
+                        var t = Data.find(i => i.title === title)
+                        if (!t?.title) {
+                            Data.push({
+                                "id": id,
+                                "title": title,
+                                "value": obj3
+                            })
+                        }
+                    }
+                })
+            }
         }
         if (position == 3) {
             var list = [...test3];
@@ -240,18 +304,37 @@ function AddEstimation() {
                 list.splice(test3.indexOf(eve.target.value), 1);
             }
             setTest3(list)
-            var obj2 = list.reduce((index, value) => {
+            var obj4 = list.reduce((index, value) => {
                 index[value] = true
                 return index;
             }, {})
-            arr4 = [{
-                "id": id,
-                "title": title,
-                "value": obj2
-            }]
-            console.log("arrarrarr444", arr4);
+            if (Data.length === 0) {
+                Data.push({
+                    "id": id,
+                    "title": title,
+                    "value": obj4
+                })
+            } else {
+                Data.map((a, i) => {
+                    if (a.title === title) {
+                        Data[i].value = obj4
+                    }
+                    else {
+                        var t = Data.find(i => i.title === title)
+                        if (!t?.title) {
+                            Data.push({
+                                "id": id,
+                                "title": title,
+                                "value": obj4
+                            })
+                        }
+                    }
+                })
+            }
         }
+
         console.log("DATADATA", Data);
+        setCurrentEvent({ ...currentEvent, fields: Data })
     };
 
     return (
@@ -352,7 +435,10 @@ function AddEstimation() {
                                             Hours
                                         </MDTypography>
                                         <MDInput type="text" label="Enter Total Hours" variant="outlined" sx={{ width: { lg: "550px", md: "550px", sm: "100%" } }}
-                                            value={total} onChange={(e) => { setTotal(e.target.value) }} />
+                                            onChange={(eve) => {
+                                                handleChangeHours(eve.target.value, dat?.title)
+                                            }
+                                            } />
                                     </Box>
                                 </MDBox>
                                 {state.users}
