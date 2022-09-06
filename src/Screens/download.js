@@ -12,6 +12,7 @@ import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import { jsPDF } from "jspdf";
 import "jspdf-autotable";
+import { CSVLink } from "react-csv"
 
 
 function Download() {
@@ -35,8 +36,6 @@ function Download() {
         const item = await getDocs(usersCollectionRef);
         let data = item.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
         setRawData(data)
-        console.log("datadata", data);
-
     };
 
     const selectPlatform = (value) => {
@@ -60,31 +59,30 @@ function Download() {
     };
     const handleChange2 = (event) => {
         setType(event.target.value);
-    };
 
+    };
     const getPdf = () => {
         const doc = new jsPDF();
-        var tableColumn = ["DASHBOARD DETAILS", ""];
 
-        var ProjectData = [
-            ["Project Name", selectedProject[0].projectName],
-            [""],
-            ["PROJECT WILL BE BUILT"],
-            ["Platform", selectedProject[0].platform],
-            ["presenters", "1"],
-            [""],
-            ["NUMBER OF USERS ATTENDED"],
-            ["Attendees",],
-            ["presenters", "1"],
-            [""],
-            ["TOTAL NUMBER OF QUESTIONS",],
-            ["NUMBER OF ANSWERED QUESTIONS",],
-            [""],
-            ["NUMBER OF FILES",],
-            ["NUMBER OF DOWNLOADS",],
+        var bbb = selectedProject[0]?.fields?.map(function (u) { return u.value })
+        var ccc = bbb?.map(function (v) { return Object.keys(v) })
+        var aaa = selectedProject[0]?.fields?.map(function (u) { return selectedProject[0]?.hours[u.title] })
+        var arr = selectedProject[0]?.fields?.map(function (v, i) { return v.title; })
+
+        var head = ['Project Name', 'Platform', 'Main Functionality', 'Sub-Functionality', "Hours", "Note"];
+        var body = [
+            [selectedProject[0]?.projectName, selectedProject[0]?.platform, [arr], [ccc], [aaa], [selectedProject[0].note]]
+
         ];
-        doc.autoTable(tableColumn, ProjectData, { startY: 20 });
-        doc.save(`Project.pdf`);
+        if (type === "PDF") {
+            doc.text("Project Details", 14, 20)
+            doc.autoTable(head, body, { startY: 25 }, { horizontalPageBreak: true },);
+            doc.save(`Project.pdf`);
+        }
+        if (type === "CSV") {
+            console.log("CSVCSV");
+        }
+
     }
     return (
         <DashboardLayout>
@@ -138,8 +136,8 @@ function Download() {
                                 inputProps={{ 'aria-label': 'With label' }}
                                 fullWidth sx={{ height: '40px', marginTop: "10px" }}
                             >
-                                <MenuItem value={10} sx={{ marginBottom: '3px' }}>CSV</MenuItem>
-                                <MenuItem value={20} sx={{ marginBottom: '3px' }}>PDF</MenuItem>
+                                <MenuItem value={"CSV"} sx={{ marginBottom: '3px' }}>CSV</MenuItem>
+                                <MenuItem value={"PDF"} sx={{ marginBottom: '3px' }}>PDF</MenuItem>
                             </Select>
                         </Box>
                         <MDBox mt={4} mb={1} sx={{ textAlign: "center" }}>
