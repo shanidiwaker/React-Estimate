@@ -25,7 +25,7 @@ function Download() {
     const platformRef = collection(db, 'Platform');
     const usersCollectionRef = collection(db, 'estimation');
     const [shortedArray, setShortedArray] = React.useState([])
-    const [CSV, setCSV] = React.useState();
+    const [button, setButton] = React.useState(true);
 
     React.useEffect(() => {
         getData();
@@ -60,15 +60,40 @@ function Download() {
     };
     const handleChange2 = (event) => {
         setType(event.target.value);
+        if (type === "CSV") {
+            setButton(true)
+        }
+        if (type === "PDF") {
+            setButton(false)
+        }
 
     };
+
+    var bbb = selectedProject[0]?.fields?.map(function (u) { return u.value })
+    var ccc = bbb?.map(function (v) { return Object.keys(v) })
+    var aaa = selectedProject[0]?.fields?.map(function (u) { return selectedProject[0]?.hours[u.title] })
+    var arr = selectedProject[0]?.fields?.map(function (v, i) { return v.title; })
+
+    var temp = [
+        ["Project Name", selectedProject[0]?.projectName],
+        [""],
+        ["Project Will be Built On "],
+        ["Platform", selectedProject[0]?.platform],
+        [""],
+        ["Main Functionality"],
+        ["Functionality", [arr]],
+        [""],
+        ["Sub Functionality",],
+        ["Functionality", [ccc]],
+        [""],
+        ["Total Hours",],
+        ["Hours for Diffrent Functionality", [aaa]],
+        ["Notes",],
+        ["Note", selectedProject[0]?.note],
+
+    ];
     const getPdf = () => {
         const doc = new jsPDF();
-
-        var bbb = selectedProject[0]?.fields?.map(function (u) { return u.value })
-        var ccc = bbb?.map(function (v) { return Object.keys(v) })
-        var aaa = selectedProject[0]?.fields?.map(function (u) { return selectedProject[0]?.hours[u.title] })
-        var arr = selectedProject[0]?.fields?.map(function (v, i) { return v.title; })
 
         var tableColumn = ["DASHBOARD DETAILS", ""];
 
@@ -90,11 +115,13 @@ function Download() {
             ["Note", selectedProject[0].note],
 
         ];
-        if (type === "PDF") {
-            doc.autoTable(tableColumn, body, { startY: 25 },);
-            doc.save(`Project.pdf`);
-        }
+
+
+        doc.autoTable(tableColumn, body, { startY: 25 },);
+        doc.save(`Project.pdf`);
+
     }
+
     return (
         <DashboardLayout>
             <MDTypography variant="h3" fontWeight="medium" mt={1}>
@@ -152,17 +179,26 @@ function Download() {
                             </Select>
                         </Box>
                         <MDBox mt={4} mb={1} sx={{ textAlign: "center" }}>
-                            <MDButton variant="gradient"
-                                color="info"
-                                onClick={getPdf}  >
-                                Download
-                            </MDButton>
+                            {button ?
+                                <MDButton variant="gradient"
+                                    color="info"
+                                    onClick={getPdf}  >
+                                    Download
+                                </MDButton>
+                                :
+                                <MDButton variant="gradient"
+                                    color="info">
+                                    <CSVLink data={temp} style={{ color: "#fff" }}>
+                                        Download
+                                    </CSVLink>
+                                </MDButton>}
+
                         </MDBox>
                     </Box>
                 </Grid>
             </Grid>
 
-        </DashboardLayout>
+        </DashboardLayout >
     );
 }
 
