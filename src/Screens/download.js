@@ -25,6 +25,7 @@ function Download() {
     const platformRef = collection(db, 'Platform');
     const usersCollectionRef = collection(db, 'estimation');
     const [shortedArray, setShortedArray] = React.useState([])
+    const [CSV, setCSV] = React.useState();
 
     React.useEffect(() => {
         getData();
@@ -69,20 +70,30 @@ function Download() {
         var aaa = selectedProject[0]?.fields?.map(function (u) { return selectedProject[0]?.hours[u.title] })
         var arr = selectedProject[0]?.fields?.map(function (v, i) { return v.title; })
 
-        var head = ['Project Name', 'Platform', 'Main Functionality', 'Sub-Functionality', "Hours", "Note"];
+        var tableColumn = ["DASHBOARD DETAILS", ""];
+
         var body = [
-            [selectedProject[0]?.projectName, selectedProject[0]?.platform, [arr], [ccc], [aaa], [selectedProject[0].note]]
+            ["Project Name", selectedProject[0]?.projectName],
+            [""],
+            ["Project Will be Built On "],
+            ["Platform", selectedProject[0]?.platform],
+            [""],
+            ["Main Functionality"],
+            ["Functionality", [arr]],
+            [""],
+            ["Sub Functionality",],
+            ["Functionality", [ccc]],
+            [""],
+            ["Total Hours",],
+            ["Hours for Diffrent Functionality", [aaa]],
+            ["Notes",],
+            ["Note", selectedProject[0].note],
 
         ];
         if (type === "PDF") {
-            doc.text("Project Details", 14, 20)
-            doc.autoTable(head, body, { startY: 25 }, { horizontalPageBreak: true },);
+            doc.autoTable(tableColumn, body, { startY: 25 },);
             doc.save(`Project.pdf`);
         }
-        if (type === "CSV") {
-            console.log("CSVCSV");
-        }
-
     }
     return (
         <DashboardLayout>
