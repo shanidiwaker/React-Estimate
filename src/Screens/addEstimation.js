@@ -134,7 +134,11 @@ function AddEstimation() {
 
     const handleChange2 = (event) => {
         let fields = JSON.parse(event.target.value);
-        if (currentEvent?.fields?.length) currentEvent?.fields.push(fields);
+        if (currentEvent?.fields?.length) {
+            console.log(currentEvent?.fields.map(function (v, i) { return v.title }).includes(fields.title));
+            if (!currentEvent?.fields.map(function (v, i) { return v.title }).includes(fields.title))
+                currentEvent?.fields.push(fields);
+        }
         else currentEvent.fields = [fields];
         setCurrentEvent(JSON.parse(JSON.stringify({ ...currentEvent, status: event.target.value })));
         console.log('=========>', currentEvent);
