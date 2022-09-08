@@ -131,20 +131,21 @@ function AddEstimation() {
     // const handleChange = (event) => {
     //     setCurrentEvent({ ...currentEvent, platform: event.target.value });
     // };
-
+    let fields;
+    let data;
     const handleChange2 = (event) => {
-        let fields = JSON.parse(event.target.value);
+        fields = JSON.parse(event.target.value);
+        data = event.target.value;
+
+    };
+    const addUser = () => {
         if (currentEvent?.fields?.length) {
-            console.log(currentEvent?.fields.map(function (v, i) { return v.title }).includes(fields.title));
             if (!currentEvent?.fields.map(function (v, i) { return v.title }).includes(fields.title))
                 currentEvent?.fields.push(fields);
         }
         else currentEvent.fields = [fields];
-        setCurrentEvent(JSON.parse(JSON.stringify({ ...currentEvent, status: event.target.value })));
+        setCurrentEvent(JSON.parse(JSON.stringify({ ...currentEvent, status: data })));
         console.log('=========>', currentEvent);
-
-    };
-    const addUser = () => {
         const deepClone = JSON.parse(JSON.stringify(currentEvent));
         setTempEvent(deepClone);
     }
